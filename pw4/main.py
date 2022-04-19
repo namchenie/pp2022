@@ -1,0 +1,8 @@
+inputStudent()
+inputCourse()
+inputMarks()
+listCourses()
+listStudents()
+showMarks()
+calAverage()
+sortAverageMark()

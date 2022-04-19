@@ -1,145 +1,115 @@
-
-studentList = [
-]
-
-coursesList = [
-    {
-        "name": "LA",
-        "id": 0
-    },
-    {
-        "name": "CN",
-        "id": 1
-    },
-    {
-        "name": "PS",
-        "id": 2
-    },
-    {
-        "name": "SE",
-        "id": 3
-    },
-    {
-        "name": "Python",
-        "id": 4
-    },
-    {
-        "name": "Hello",
-        'courses': [{'grade': '', 'courseName': 'LA'}, {'grade': '', 'courseName': 'CN'}]
-    }
-]
-
-def find(lst, key, value):
-    for i, dic in enumerate(lst):
-        if dic[key] == value:
-            return i
-    return -1
-
-haha = [{'name': 'Harry', 'ID_CONSTANT': '1', 'courses': [{'grade': '', 'courseName': 'Python'}, {'grade': '', 'courseName': 'LA'}]}]
-
-
-def inputStudentNum():
-    num = int(input("Enter the number of students: "))
-    return num
-
-
-def chooseCourse(courseList, studentList):
-    listOfCourse = []
-    flag = True
-    studentCourseList = []
-    for i in range(0, len(courseList)):
-        listOfCourse.append(courseList[i]["name"])
-
-    print("Here are the available courses: \n")
-    for i in range(0, len(courseList)):
-        print(courseList[i]["name"], end=" ")
-    print("\n")
-    courseInput = input("Enter the course name: ")
-    print("hello " + str(studentList))
-    while flag:
-        if(courseInput in listOfCourse):
-            for i in range(0, len(studentList)):
-                for t in range (0, len((studentList[i]["courses"]))):
-                    if(studentList[i]["courses"][t]["courseName"] == courseInput):
-                        studentCourseList.append(studentList[i])
-            flag = False
-        else:
-            print("The entered course does not exist. Please try again.")
-    
-    if(not studentList):
-        print("Student list is incomplete.")
+#Input number of students in a class
+def numOfStudent():
+    StudentCount = int(input("Enter the number of students: "))
+    if StudentCount < 0:
+        print("Invalid number! Please enter again.")
     else:
-        studentName = input("Enter student's name to modify grades: ")
-        studentID = input("Enter student's ID to modify gradeS: ")
-        for i in range(0, len(studentCourseList)):
-            if((studentName == studentCourseList[i]["name"]) and [studentID == studentCourseList[i]["ID_CONSTANT"]]):
-                studentGrade = input("Enter student "+ studentName + ", ID: "+ studentID + " new grade: ")
-                (studentList[find(studentList,"ID_CONSTANT",studentID)]["courses"][find(studentList[find(studentList,"ID_CONSTANT",studentID)]["courses"],"courseName",courseInput)]).update({"grade":studentGrade}) 
-    print(studentList)
-                
+        return StudentCount
 
 
-def inputCourseInfo(studentNo, courseList):
-    listOfCourse = []
-    tempList = []
-    returnedList = []
-    index = 0
-    for i in range(0, len(courseList)):
-        listOfCourse.append(courseList[i]["name"])
+#Input student information: id, name, DoB
+def inputStudentInformation(StudentCount):
 
-    numOfCourses = input("Enter student's no. " +
-    str(studentNo) + " number of enrolled courses: ")
+    students = []
 
-    print("==============================================================")
-    print("Here are the available courses:")
+    for i in range(0, StudentCount):
 
-    for i in range(0, len(courseList)):
-        print(courseList[i]["name"], end=" ")
-    print("\n")
-    while index < int(numOfCourses):
-        inputCourse = input("Enter course name no. " + str(index) +" for student no. " + str(studentNo) + ": ")
-        if (inputCourse in tempList):
-            print("Course " + inputCourse + " has already been added. Please try again.")
-        elif (inputCourse in listOfCourse):
-            addedCourse = {
-                "grade": "",
-                "courseName": inputCourse,
-            }
-            tempList.append(inputCourse)
-            returnedList.append(addedCourse)
-            index = index + 1
-            print("Course "+inputCourse + " has been added")
-        else:
-            print("The entered course does not exist. Please try again.")
+        id = input("Enter student's ID: ")
+        name = input("Enter student's name: ")
+        dob = input("Enter sutdent's DoB: ")
 
-    print(returnedList)
-    return returnedList
-
-
-def inputStudentInfo(studentsNum, studentList):
-    for i in range(0, studentsNum):
-        tempDict = {
-            "name": "",
-            "ID_CONSTANT": "",
-            "courses": "",
+        student = {
+            "id" : id,
+            "name" : name,
+            "dob" : dob,
+            "marks" : {}
         }
-        tempName = input("Enter the name for student no." + str(i) + ": ")
-        tempId = input("Enter the ID for student no." + str(i) + ": ")
-        courseList = inputCourseInfo(i, coursesList)
 
-        tempDict["name"] = tempName
-        tempDict["ID_CONSTANT"] = tempId
-        tempDict["courses"] = courseList
-        studentList.append(tempDict)
+        students.append(student)
 
-    print(studentList)
-    return studentList
+    return students
+       
 
-
-def initiateClass():
-    numOfStudents = inputStudentNum()
-    inputStudentInfo(numOfStudents, studentList)
-    chooseCourse(coursesList,studentList)
+#Input number of course
+def numofCourse():
+    CourseCount = int(input("Enter the number of courses: "))
+    if CourseCount < 0:
+        print("Invalid number! Please enter again.")
+    else:
+        return CourseCount
 
 
-initiateClass()
+#Input course information: id, name
+def InputCourseInformation(CourseCount):
+
+    courses = []
+
+    for i in range(0, CourseCount): 
+        id = input("Enter course's ID: ")
+        name = input("Enter course's name: ")
+        course = {
+            "id" : id,
+            "name" : name
+        }
+
+        courses.append(course)
+
+    return courses
+
+
+
+#List courses
+def listCourses(courses):
+    print("\n All courses list")
+    for course in courses:
+        print(f"{course['id']: <10}     {course['name']: <30}")
+
+
+
+# #Select course
+def selectCourses(courses):
+    listCourses(courses)
+    courseid = input("Enter course ID: ")
+    return courseid
+
+
+#Input marks for student in the selected course
+def inputMark(courseid, students):
+    print(f"Enter marks of the course {courseid} for students: ")
+    for student in students:
+        mark = float(input(f"- Student {student['id']} {student['name']} "))
+        student["marks"][courseid] = mark
+
+
+#List students
+def listStudents(students):
+    print("\n All students list")
+    for student in students:
+        print(f"{student['name']: <20}   {student['id']: <10}   {student['dob']: <15}")
+
+
+#Show students marks
+def showMark(courseid, students):
+    print(f"\nAll marks for the course {courseid}: ")
+    for student in students:
+        print(f"{student['name']: <20}  {student['marks'][courseid]}")
+
+
+#Enter student count and information
+StudentCount = numOfStudent()
+students = inputStudentInformation(StudentCount)
+listStudents(students)
+
+#Enter course count and information
+CourseCount = numofCourse()
+courses = InputCourseInformation(CourseCount)
+listCourses(courses)
+
+#Select course and input mark for students
+courseid = selectCourses(courses)
+inputMark(courseid, students)
+
+#Show marks for a given course
+courseid = selectCourses(courses)
+showMark(courseid, students)
+
